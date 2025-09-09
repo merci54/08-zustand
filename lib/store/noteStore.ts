@@ -1,15 +1,14 @@
-import { Note } from "@/types/note";
+import { NewNoteData } from "@/types/note";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 type NoteStore = {
-  draft: Pick<Note, "title" | "content" | "tag">;
-
-  updateDraft: (note: Partial<Note>) => void;
+  draft: NewNoteData;
+  updateDraft: (note: NewNoteData) => void;
   clearDraft: () => void;
 };
 
-const initialDraft: Pick<Note, "title" | "content" | "tag"> = {
+const initialDraft: NewNoteData = {
   title: "",
   content: "",
   tag: "Todo",

@@ -1,15 +1,15 @@
 "use client";
 
 import css from "./NoteForm.module.css";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote } from "@/lib/api";
 import LoadingButton from "../LoadingButton/LoadingButton";
 import { useRouter } from "next/navigation";
 import { useNoteStore } from "@/lib/store/noteStore";
-import { Note } from "@/types/note";
+import { NewNoteData, Note } from "@/types/note";
 
 export default function NoteForm() {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const router = useRouter();
   const { draft, updateDraft, clearDraft } = useNoteStore();
 
@@ -21,8 +21,22 @@ export default function NoteForm() {
       queryClient.invalidateQueries({ queryKey: ["notes"] });
     },
   });
-  const handleSubmit = () => {
-    mutate(draft);
+  const handleSubmit = (formData: FormData) => {
+    const values = Object.fromEntries(formData) as Pick<
+      Note,
+      "title" | "content" | "tag"
+    >;
+    mutate(values);
+  };
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    updateDraft({
+      ...draft,
+      [e.target.name]: e.target.value,
+    });
   };
 
   return (
@@ -30,8 +44,8 @@ export default function NoteForm() {
       <div className={css.formGroup}>
         <label htmlFor="title">Title</label>
         <input
-          value={draft.title}
-          onChange={(e) => updateDraft({ title: e.target.value })}
+          defaultValue={draft?.title}
+          onChange={handleChange}
           id="title"
           type="text"
           name="title"
@@ -42,8 +56,8 @@ export default function NoteForm() {
       <div className={css.formGroup}>
         <label htmlFor="content">Content</label>
         <textarea
-          value={draft.content}
-          onChange={(e) => updateDraft({ content: e.target.value })}
+          defaultValue={draft?.content}
+          onChange={handleChange}
           id="content"
           name="content"
           className={css.textarea}
@@ -53,8 +67,8 @@ export default function NoteForm() {
       <div className={css.formGroup}>
         <label htmlFor="tag">Tag</label>
         <select
-          value={draft.tag}
-          onChange={(e) => updateDraft({ tag: e.target.value as Note["tag"] })}
+          defaultValue={draft?.tag}
+          onChange={handleChange}
           id="tag"
           name="tag"
           className={css.select}

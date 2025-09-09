@@ -28,7 +28,12 @@ export default function NoteList({ notes }: NoteListProps) {
           <p className={css.content}>{note.content}</p>
           <div className={css.footer}>
             <span className={css.tag}>{note.tag}</span>
-            <Link className={css.details} href={`/notes/${note.id}`}>
+            <Link
+              className={css.details}
+              href={`/notes/${note.id}`}
+              scroll={false}
+              prefetch={false}
+            >
               View details
             </Link>
             <button className={css.button} onClick={() => mutate(note.id)}>
