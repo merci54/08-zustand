@@ -32,7 +32,9 @@ export default function NotePreview() {
               <p className={css.tag}>{note.tag}</p>
               <p className={css.date}>{note.createdAt}</p>
             </div>
-            <button onClick={() => router.back()}>Close</button>
+            <button className={css.close} onClick={() => router.back()}>
+              Close
+            </button>
           </div>
         </Modal>
       )}
