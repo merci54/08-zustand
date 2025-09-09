@@ -6,12 +6,13 @@ import {
 } from "@tanstack/react-query";
 import { Note } from "@/types/note";
 import NotesPage from "./Notes.client";
+import { Metadata } from "next";
 
 interface Props {
   params: Promise<{ slug: string[] }>;
 }
 
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
 
   return {
