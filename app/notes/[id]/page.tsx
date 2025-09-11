@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${note.title.slice(0, 30)}`,
       description: `${note.content.slice(0, 100)}`,
-      url: `https://08-zustand-woad-three.vercel.app/${id}`,
+      url: `https://soliq.rest/${id}`,
       images: [
         {
           url: "https://ac.goit.global/fullstack/react/og-meta.jpg",
